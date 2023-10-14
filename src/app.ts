@@ -12,7 +12,7 @@ import mongoose from 'mongoose';
 const uri = "mongodb+srv://admin:OT2O4X3qU6WO5Rgn@cluster0.rrn19fc.mongodb.net/?retryWrites=true&w=majority";
 
 const app = express();
-const port = 3000;
+const port = process.env.PORT || 3000;
 
 const axiosInstance = axios.create({
   httpsAgent: new https.Agent({ rejectUnauthorized: false })
@@ -21,6 +21,10 @@ const axiosInstance = axios.create({
 app.use(bodyParser.json());
 app.use(cors());
 
+
+app.get('/', (req, res) => {
+  res.send({ msg: "Hola Mundo"});
+});
 
 app.post('/convert', async (req, res) => {
     const { date, value, user } = req.body;

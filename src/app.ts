@@ -23,7 +23,7 @@ app.use(cors());
 
 
 app.get('/', (req, res) => {
-  res.send({ msg: "Hola Mundo"});
+  res.send({ msg: "un aplauso para el luquitas"});
 });
 
 app.post('/convert', async (req, res) => {
@@ -45,6 +45,23 @@ app.post('/convert', async (req, res) => {
       res.status(500).send('Error en la solicitud a la API');
     }
   });
+
+  app.post('/unitUF', async (req, res) => {
+    const { date, value, user } = req.body;
+    try {
+      const url = `https://165.227.94.139/api/uf/${date}`;
+      const { data, status } = await axiosInstance.get(url);
+      const ufValue = converterStringToNumber(value);  
+      const valor = data.serie[0].valor;
+      const result = {
+          valor
+      }
+      res.status(status);
+      res.json(result);
+    } catch (error) {
+      res.status(500).send('Error en la solicitud a la API');
+    }
+  })
 
   app.post('/login', async (req, res) => {
     const { email, password } = req.body;
